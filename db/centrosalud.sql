@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2026 a las 04:33:45
+-- Tiempo de generación: 28-09-2026 a las 04:52:24
 -- Versión del servidor: 8.0.42
 -- Versión de PHP: 8.2.12
 
@@ -35,6 +35,15 @@ CREATE TABLE `atencion` (
   `archivo_pdf` varchar(255) DEFAULT NULL,
   `fecha_atencion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `atencion`
+--
+
+INSERT INTO `atencion` (`id_atencion`, `id_turno`, `diagnostico`, `observaciones`, `archivo_pdf`, `fecha_atencion`) VALUES
+(1, 1, 'Control general sin hallazgos', 'Se indican estudios de rutina', NULL, '2026-09-15 09:20:00'),
+(2, 2, 'Arritmia leve', 'Se solicita electrocardiograma', 'estudios/ecg_40000002.pdf', '2026-09-18 10:50:00'),
+(3, 4, 'Sin fracturas visibles', 'Radiografía de rodilla derecha', 'estudios/rx_40000004.pdf', '2026-09-22 08:45:00');
 
 -- --------------------------------------------------------
 
@@ -135,6 +144,17 @@ CREATE TABLE `paciente` (
   `id_plan` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `paciente`
+--
+
+INSERT INTO `paciente` (`dni`, `fecha_nacimiento`, `id_plan`) VALUES
+(40000001, '1990-05-14', 1),
+(40000002, '1985-11-02', 3),
+(40000003, '2001-03-27', NULL),
+(40000004, '1972-08-09', 5),
+(40000005, '2015-01-20', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -162,7 +182,12 @@ INSERT INTO `persona` (`dni`, `nombre_completo`, `email`, `password`, `telefono`
 (30000005, 'Marcos Díaz', 'mdiaz@centrosalud.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1122334459', 4),
 (30000006, 'Juan Pérez', 'jperez@centrosalud.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1122334460', 3),
 (30000007, 'Sofía Martínez', 'smartinez@centrosalud.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1122334461', 3),
-(30000008, 'Diego Fernández', 'dfernandez@centrosalud.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1122334462', 3);
+(30000008, 'Diego Fernández', 'dfernandez@centrosalud.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1122334462', 3),
+(40000001, 'María López', 'mlopez@mail.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1155001001', 5),
+(40000002, 'Pedro Sánchez', 'psanchez@mail.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1155001002', 5),
+(40000003, 'Lucía Fernández', 'lfernandez@mail.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1155001003', 5),
+(40000004, 'Jorge Ramírez', 'jramirez@mail.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1155001004', 5),
+(40000005, 'Valentina Castro', 'vcastro@mail.com', '$2b$10$QS7ZCFottMWiFJPbx0sjjeHc8L.T24NEUg2BNGzNudQyirmotCt4e', '1155001005', 5);
 
 -- --------------------------------------------------------
 
@@ -227,6 +252,23 @@ CREATE TABLE `turno` (
   `costo_final` decimal(10,2) DEFAULT NULL,
   `fecha_solicitud` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `turno`
+--
+
+INSERT INTO `turno` (`id_turno`, `dni_paciente`, `dni_doctor`, `id_especialidad`, `fecha`, `hora`, `estado`, `costo_final`, `fecha_solicitud`) VALUES
+(1, 40000001, 30000006, 1, '2026-09-15', '09:00:00', 'realizado', 1500.00, '2026-09-27 23:34:59'),
+(2, 40000002, 30000006, 3, '2026-09-18', '10:30:00', 'realizado', 2800.00, '2026-09-27 23:34:59'),
+(3, 40000003, 30000008, 4, '2026-09-20', '11:00:00', 'ausente', 6500.00, '2026-09-27 23:34:59'),
+(4, 40000004, 30000008, 6, '2026-09-22', '08:30:00', 'realizado', 2000.00, '2026-09-27 23:34:59'),
+(5, 40000005, 30000007, 2, '2026-09-25', '16:00:00', 'cancelado', 1100.00, '2026-09-27 23:34:59'),
+(6, 40000001, 30000006, 3, '2026-10-02', '09:30:00', 'pendiente', 2100.00, '2026-09-27 23:34:59'),
+(7, 40000005, 30000007, 2, '2026-10-05', '15:00:00', 'confirmado', 1100.00, '2026-09-27 23:34:59'),
+(8, 40000003, 30000006, 1, '2026-10-07', '10:00:00', 'pendiente', 5000.00, '2026-09-27 23:34:59'),
+(9, 40000002, 30000008, 6, '2026-10-08', '12:00:00', 'pendiente', 1600.00, '2026-09-27 23:34:59'),
+(10, 40000001, 30000008, 6, '2026-09-30', '08:30:00', 'pendiente', 4000.00, '2026-09-27 23:35:34'),
+(11, 40000001, 30000008, 6, '2026-09-30', '08:30:00', 'pendiente', 1200.00, '2026-09-27 23:36:36');
 
 --
 -- Índices para tablas volcadas
@@ -310,7 +352,7 @@ ALTER TABLE `turno`
 -- AUTO_INCREMENT de la tabla `atencion`
 --
 ALTER TABLE `atencion`
-  MODIFY `id_atencion` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_atencion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `especialidad`
@@ -340,7 +382,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `turno`
 --
 ALTER TABLE `turno`
-  MODIFY `id_turno` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_turno` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
