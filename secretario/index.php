@@ -9,5 +9,6 @@
     <!-- Hagan header cabrones  !-->
 
     <a href="crearTurno.php">crear turno</a>
+    <a href="gestionarCambio.php">gestionar turnos</a>
 </body>
 </html>

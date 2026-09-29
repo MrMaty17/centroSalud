@@ -1,7 +1,12 @@
 <?php
+session_start();
 include '../auth/conexion.php';
 
-$dni = (int)$_GET['dni'];
+if (!isset($_SESSION['dni']) || $_SESSION['id_rol'] != 5) {
+    die("Acceso no autorizado");
+}
+
+$dni = $_SESSION['dni'];
 
 $paciente = $conexion->query("SELECT pe.nombre_completo FROM persona pe JOIN paciente pa ON pa.dni = pe.dni WHERE pe.dni = $dni")->fetch_assoc();
 
@@ -17,7 +22,8 @@ $historial = $conexion->query("
 ");
 
 $pendientes = $conexion->query("
-    SELECT t.fecha, t.hora, pd.nombre_completo AS doctor, e.nombre AS especialidad, t.estado, t.costo_final
+    SELECT t.id_turno, t.fecha, t.hora, pd.nombre_completo AS doctor, e.nombre AS especialidad, t.estado, t.costo_final,
+           DATEDIFF(t.fecha, CURDATE()) AS dias_para_turno
     FROM turno t
     JOIN persona pd ON pd.dni = t.dni_doctor
     JOIN especialidad e ON e.id_especialidad = t.id_especialidad
@@ -26,17 +32,17 @@ $pendientes = $conexion->query("
 ");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mi historia clínica</title>
 </head>
 <body>
     <h2>Paciente: <?php echo $paciente['nombre_completo']; ?> (DNI <?php echo $dni; ?>)</h2>
 
     <?php if ($historial->num_rows === 0) :?>
-        <h3>No hay turnos pendientes</h3>
+        <h3>No hay atenciones registradas</h3>
     <?php else : ?>
         <h3>Historial médico</h3>
         <table border="1">
@@ -78,9 +84,13 @@ $pendientes = $conexion->query("
                 <th>Especialidad</th>
                 <th>Estado</th>
                 <th>Costo</th>
+                <th>Acciones</th>
             </tr>
             <?php
                 while ($t = $pendientes->fetch_assoc()) {
+                    $boton = $t['dias_para_turno'] >= 1
+                        ? "<a href='solicitarCambio.php?id_turno={$t['id_turno']}'>Solicitar cambio</a>"
+                        : "-";
                     echo "<tr>
                         <td>{$t['fecha']}</td>
                         <td>{$t['hora']}</td>
@@ -88,6 +98,7 @@ $pendientes = $conexion->query("
                         <td>{$t['especialidad']}</td>
                         <td>{$t['estado']}</td>
                         <td>\${$t['costo_final']}</td>
+                        <td>{$boton}</td>
                     </tr>";
                 }
             ?>
