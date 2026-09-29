@@ -8,7 +8,7 @@
 <body>
     <main>
         <div>
-            <form method="POST" action="login.php">
+            <form method="POST" action="auth/login.php">
                 <input type="email" name="email" required><br>
                 <input type="password" name="password" required><br>
                 <button type="submit">Ingresar</button>
