@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt2->bind_param("is", $dni, $fecha_nacimiento);
         $stmt2->execute();
  
-        header("Location: login.php");
+        header("Location: login");
         exit();
     } else {
         echo "Error al registrar: " . $stmt->error;

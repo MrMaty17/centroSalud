@@ -25,7 +25,7 @@ $doctores = $conexion->query("
 <body>
 
     <main>
-        <form action="registrarTurno.php" method="POST">
+        <form action="registrarTurno" method="POST">
             <label>Dni del paciente</label>
             <input type="text" name="dniPaciente" placeholder="XX.XXX.XXX" required>
             <label>Fecha</label>

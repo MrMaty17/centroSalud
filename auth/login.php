@@ -19,19 +19,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             switch ($row["id_rol"]) {
                 case 1: // administrador
                 case 2: // supervisor
-                    header("Location: ../superadmin/index.php");
+                    header("Location: ../superadmin/index");
                     break;
                 case 3: // doctor
-                    header("Location: ../doctor/index.php");
+                    header("Location: ../doctor/turnosDoctor");
                     break;
                 case 4: // secretario
-                    header("Location: ../secretario/index.php");
+                    header("Location: ../secretario/index");
                     break;
                 case 5: // paciente
-                    header("Location: ../usuario/index.php");
+                    header("Location: ../usuario/index");
                     break;
                 default:
-                    header("Location: ../index.php");
+                    header("Location: ../index");
             }
             exit();
         } else {

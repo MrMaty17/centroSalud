@@ -47,7 +47,7 @@ $pacientes = $conexion->query("
                     <td>{$p['plan']}</td>
                     <td>{$p['telefono']}</td>
                     <td>
-                        <form method='GET' action='historialPaciente.php'>
+                        <form method='GET' action='historialPaciente'>
                             <input type='hidden' name='dni' value='{$p['dni']}'>
                             <button type='submit'>Ver historial</button>
                         </form>

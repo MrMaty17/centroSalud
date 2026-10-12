@@ -13,7 +13,7 @@ $planes = $conexion->query("SELECT pl.id_plan, os.nombre AS obra_social, pl.nomb
 </head>
 <body>
     <main>
-        <form action="crearCliente.php" method="POST">
+        <form action="crearCliente" method="POST">
             <label>DNI</label>
             <input type="text" name="dni" required>
             <label>nombre completo</label>

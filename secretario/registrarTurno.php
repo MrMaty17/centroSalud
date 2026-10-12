@@ -20,6 +20,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
     $conexion->query("INSERT INTO turno (dni_paciente, dni_doctor, id_especialidad, fecha, hora, estado, costo_final) VALUES ($dniPaciente, $dniDoctor, $idEspecialidad, '$fecha', '$hora', 'pendiente', $costoFinal)");
 }
 
-header('Location: index.php');
+header('Location: index');
 
 ?>

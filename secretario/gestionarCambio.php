@@ -50,12 +50,12 @@ $solicitudes = $conexion->query("
                         <td>{$s['fecha_actual']} {$s['hora_actual']}</td>
                         <td>{$s['fecha_nueva']} {$s['hora_nueva']}</td>
                         <td>
-                            <form method='POST' action='guardarCambio.php' style='display:inline'>
+                            <form method='POST' action='guardarCambio' style='display:inline'>
                                 <input type='hidden' name='id_solicitud' value='{$s['id_solicitud']}'>
                                 <input type='hidden' name='accion' value='aprobar'>
                                 <button type='submit'>Aprobar</button>
                             </form>
-                            <form method='POST' action='guardarCambio.php' style='display:inline'>
+                            <form method='POST' action='guardarCambio' style='display:inline'>
                                 <input type='hidden' name='id_solicitud' value='{$s['id_solicitud']}'>
                                 <input type='hidden' name='accion' value='rechazar'>
                                 <button type='submit'>Rechazar</button>
