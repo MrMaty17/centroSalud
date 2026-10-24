@@ -1,9 +1,13 @@
 <?php
-include '../auth/conexion.php';
 session_start();
+include '../auth/conexion.php';
 
+// Solo secretario (4), supervisor (2) o administrador (1)
+if (!isset($_SESSION["id_rol"]) || !in_array($_SESSION["id_rol"], [1, 2, 4])) {
+    die("No tenés permiso para ver esta página");
+}
 
-$sql = "
+$turnos = $conexion->query("
     SELECT t.id_turno, t.fecha, t.hora, t.estado, t.costo_final,
            pd.nombre_completo AS doctor,
            pp.nombre_completo AS paciente, t.dni_paciente,
@@ -12,46 +16,21 @@ $sql = "
     JOIN persona pd ON pd.dni = t.dni_doctor
     JOIN persona pp ON pp.dni = t.dni_paciente
     JOIN especialidad e ON e.id_especialidad = t.id_especialidad
-";
-
-$dniDoctor = isset($_GET["doctor"]) ? $_GET["doctor"] : "";
-
-if ($dniDoctor !== "") {
-    $sql .= " WHERE t.dni_doctor = '$dniDoctor' ORDER BY t.fecha, t.hora";
-    $turnos = $conexion->query($sql);
-} else {
-    $sql .= " ORDER BY t.fecha, t.hora";
-    $turnos = $conexion->query($sql);
-}
-
-$doctores = $conexion->query("SELECT p.dni, p.nombre_completo FROM doctor d JOIN persona p ON p.dni = d.dni ORDER BY p.nombre_completo");
-
-$conexion->query($sql);
+    ORDER BY t.fecha, t.hora
+");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Turnos</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 </head>
 <body>
+    <h2>Turnos</h2>
 
-    <form method="GET">
-        <label>Filtrar por doctor</label>
-        <select name="doctor" onchange="this.form.submit()">
-        <option value="">Todos los doctores</option>
-            <?php
-                while ($d = $doctores->fetch_assoc()) {
-                    $sel = ($dniDoctor == $d['dni']) ? "selected" : "";
-                    echo "<option value='{$d['dni']}' {$sel}>{$d['nombre_completo']}</option>";
-                    }
-                ?>
-            </select>
-    </form>
-
-
-     <table border="1">
+    <table id="tabla" border="1">
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Fecha</th>
@@ -63,6 +42,8 @@ $conexion->query($sql);
                 <th>Estado</th>
                 <th>Costo</th>
             </tr>
+        </thead>
+        <tbody>
             <?php
                 while ($t = $turnos->fetch_assoc()) {
                     echo "<tr>
@@ -78,6 +59,16 @@ $conexion->query($sql);
                     </tr>";
                 }
             ?>
+        </tbody>
     </table>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script>
+        new DataTable('#tabla', {
+            language: { url: 'https://cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json' },
+            order: [[1, 'asc'], [2, 'asc']]
+        });
+    </script>
 </body>
 </html>

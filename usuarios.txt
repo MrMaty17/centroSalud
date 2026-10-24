@@ -1,0 +1,5 @@
+Admin: admin@centrosalud.com
+Supervisores: lgomez@centrosalud.com / cruiz@centrosalud.com
+Secretarios: atorres@centrosalud.com / mdiaz@centrosalud.com
+Doctores: jperez@centrosalud.com / smartinez@centrosalud.com / dfernandez@centrosalud.com
+Pacientes: psanchez@mail.com / lfernandez@mail.com / jramirez@mail.com
